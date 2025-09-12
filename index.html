@@ -30,16 +30,28 @@
         .header {
             background: linear-gradient(45deg, #4169e1, #34495e);
             color: white;
-            padding: 30px;
-            text-align: center;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* espaço entre logo e texto */
         }
 
-        .header h1 {
+        .logo {
+            width: 80px; /* ajuste conforme necessário */
+            height: auto;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header-text h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
         }
 
-        .header p {
+        .header-text p {
             font-size: 1.1em;
             opacity: 0.9;
         }
@@ -268,14 +280,26 @@
             .pros-cons {
                 grid-template-columns: 1fr;
             }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-text {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>PRUMO</h1>
-            <p>Simulador de Conciliação</p>
+            <img src="image-removebg-preview (1).png" alt="Logo" class="logo">
+            <div class="header-text">
+                <h1>PRUMO</h1>
+                <p>Simulador de Conciliação</p>
+            </div>
         </div>
 
         <div class="main-content">
@@ -502,6 +526,7 @@
     </script>
 </body>
 </html>
+
 
 
 
