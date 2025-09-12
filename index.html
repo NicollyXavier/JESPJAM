@@ -90,7 +90,7 @@
         }
 
         .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #0d214f, #bfddf3);
             color: white;
             padding: 15px 30px;
             border: none;
@@ -311,11 +311,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="valor_pedido">Valor Total Pedido (R$):</label>
-                    <input type="number" id="valor_pedido" placeholder="Ex: 10000">
-                </div>
-
-                <div class="form-group">
                     <label for="complexidade">Complexidade do Caso:</label>
                     <select id="complexidade">
                         <option value="baixa">Baixa - Documentação clara</option>
@@ -351,10 +346,6 @@
 
                 <div class="scenario risk">
                     <h4>⚖️ Cenário 2: Prosseguir para Julgamento</h4>
-                    <div class="metric">
-                        <span class="metric-label">Valor potencial:</span>
-                        <span class="metric-value" id="valor_julgamento">R$ 0</span>
-                    </div>
                     <div class="metric">
                         <span class="metric-label">Tempo estimado:</span>
                         <span class="metric-value" id="tempo_julgamento">0 meses</span>
@@ -427,10 +418,9 @@
             const juizado = document.getElementById('juizado').value;
             const tipo = document.getElementById('tipo').value;
             const valorAcordo = parseFloat(document.getElementById('valor_acordo').value);
-            const valorPedido = parseFloat(document.getElementById('valor_pedido').value);
             const complexidade = document.getElementById('complexidade').value;
 
-            if (!juizado || !tipo || !valorAcordo || !valorPedido || !complexidade) {
+            if (!juizado || !tipo || !valorAcordo || !complexidade) {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
@@ -446,7 +436,6 @@
             // Atualizar interface
             document.getElementById('valor_acordo_result').textContent = `R$ ${valorAcordo.toLocaleString('pt-BR')}`;
             document.getElementById('tempo_acordo').textContent = `${tempoAcordo} dias`;
-            document.getElementById('valor_julgamento').textContent = `R$ ${valorPedido.toLocaleString('pt-BR')}`;
             document.getElementById('tempo_julgamento').textContent = `${Math.ceil(tempoJulgamento/30)} meses`;
             document.getElementById('chance_sucesso').textContent = `${chanceSucesso}%`;
             document.getElementById('progress_risco').style.width = `${chanceSucesso}%`;
