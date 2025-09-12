@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prumo - Simulador de Conciliação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .form-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e1e8ed;
+        }
+
+        .scenario {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .scenario.risk {
+            border-left-color: #e74c3c;
+        }
+
+        .scenario h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .risk-fill {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+        }
+
+        .cons {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .pros h5, .cons h5 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pros li::before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cons li::before {
+            content: "⚠ ";
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .roadmap {
+            background: #fff;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e1e8ed;
+        }
+
+        .roadmap h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-left: 15px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PRUMO</h1>
+            <p>Simulador de Conciliação - "Simples é o Certo, Reconstruindo o Futuro em Redes"</p>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h3>📋 Dados do Processo</h3>
+                <div class="form-group">
+                    <label for="juizado">Juizado/Vara:</label>
+                    <select id="juizado">
+                        <option value="">Selecione o juizado</option>
+                        <option value="civel">Juizado Especial Cível</option>
+                        <option value="criminal">Juizado Especial Criminal</option>
+                        <option value="fazenda">Juizado da Fazenda Pública</option>
+                        <option value="trabalho">Vara do Trabalho</option>
+                        <option value="familia">Vara de Família</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo de Processo:</label>
+                    <select id="tipo">
+                        <option value="">Selecione o tipo</option>
+                        <option value="consumidor">Direito do Consumidor</option>
+                        <option value="contrato">Questões Contratuais</option>
+                        <option value="indenizacao">Indenização</option>
+                        <option value="cobranca">Cobrança</option>
+                        <option value="trabalhista">Trabalhista</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor_acordo">Valor do Acordo Proposto (R$):</label>
+                    <input type="number" id="valor_acordo" placeholder="Ex: 1500">
+                </div>
+
+                <div class="form-group">
+                    <label for="valor_pedido">Valor Total Pedido (R$):</label>
+                    <input type="number" id="valor_pedido" placeholder="Ex: 10000">
+                </div>
+
+                <div class="form-group">
+                    <label for="complexidade">Complexidade do Caso:</label>
+                    <select id="complexidade">
+                        <option value="baixa">Baixa - Documentação clara</option>
+                        <option value="media">Média - Necessita perícia</option>
+                        <option value="alta">Alta - Questões complexas</option>
+                    </select>
+                </div>
+
+                <button class="btn" onclick="calcularSimulacao()">🔍 Simular Cenários</button>
+            </div>
+
+            <div class="results-section" id="resultados" style="display: none;">
+                <h3>📊 Análise de Cenários</h3>
+                
+                <div class="scenario">
+                    <h4>🤝 Cenário 1: Aceitar Acordo</h4>
+                    <div class="metric">
+                        <span class="metric-label">Valor a receber:</span>
+                        <span class="metric-value" id="valor_acordo_result">R$ 0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tempo estimado:</span>
+                        <span class="metric-value" id="tempo_acordo">0 dias</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Certeza de recebimento:</span>
+                        <span class="metric-value">95%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%;"></div>
+                    </div>
+                </div>
+
+                <div class="scenario risk">
+                    <h4>⚖️ Cenário 2: Prosseguir para Julgamento</h4>
+                    <div class="metric">
+                        <span class="metric-label">Valor potencial:</span>
+                        <span class="metric-value" id="valor_julgamento">R$ 0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tempo estimado:</span>
+                        <span class="metric-value" id="tempo_julgamento">0 meses</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Chance de sucesso:</span>
+                        <span class="metric-value" id="chance_sucesso">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill risk-fill" id="progress_risco" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h5>✅ Prós do Acordo</h5>
+                        <ul id="pros_acordo"></ul>
+                    </div>
+                    <div class="cons">
+                        <h5>⚠️ Riscos do Julgamento</h5>
+                        <ul id="riscos_julgamento"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="roadmap" id="roadmap" style="display: none;">
+            <h3>🗺️ Roadmap do Processo</h3>
+            <div class="timeline" id="timeline"></div>
+        </div>
+    </div>
+
+    <script>
+        // Base de dados simulada para diferentes juizados
+        const dadosJuizados = {
+            civel: {
+                tempoBase: 180, // dias
+                congestionamento: 1.2,
+                taxaSucesso: 75
+            },
+            criminal: {
+                tempoBase: 120,
+                congestionamento: 1.1,
+                taxaSucesso: 80
+            },
+            fazenda: {
+                tempoBase: 360,
+                congestionamento: 1.5,
+                taxaSucesso: 60
+            },
+            trabalho: {
+                tempoBase: 240,
+                congestionamento: 1.3,
+                taxaSucesso: 85
+            },
+            familia: {
+                tempoBase: 300,
+                congestionamento: 1.4,
+                taxaSucesso: 70
+            }
+        };
+
+        const fatoresComplexidade = {
+            baixa: 0.8,
+            media: 1.0,
+            alta: 1.5
+        };
+
+        function calcularSimulacao() {
+            const juizado = document.getElementById('juizado').value;
+            const tipo = document.getElementById('tipo').value;
+            const valorAcordo = parseFloat(document.getElementById('valor_acordo').value);
+            const valorPedido = parseFloat(document.getElementById('valor_pedido').value);
+            const complexidade = document.getElementById('complexidade').value;
+
+            if (!juizado || !tipo || !valorAcordo || !valorPedido || !complexidade) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const dados = dadosJuizados[juizado];
+            const fatorComplexidade = fatoresComplexidade[complexidade];
+            
+            // Cálculos
+            const tempoAcordo = 30; // dias fixos para acordo
+            const tempoJulgamento = Math.ceil(dados.tempoBase * fatorComplexidade * dados.congestionamento);
+            const chanceSucesso = Math.max(30, dados.taxaSucesso - (fatorComplexidade - 1) * 20);
+
+            // Atualizar interface
+            document.getElementById('valor_acordo_result').textContent = `R$ ${valorAcordo.toLocaleString('pt-BR')}`;
+            document.getElementById('tempo_acordo').textContent = `${tempoAcordo} dias`;
+            document.getElementById('valor_julgamento').textContent = `R$ ${valorPedido.toLocaleString('pt-BR')}`;
+            document.getElementById('tempo_julgamento').textContent = `${Math.ceil(tempoJulgamento/30)} meses`;
+            document.getElementById('chance_sucesso').textContent = `${chanceSucesso}%`;
+            document.getElementById('progress_risco').style.width = `${chanceSucesso}%`;
+
+            // Prós e contras
+            const prosAcordo = [
+                'Recebimento rápido e garantido',
+                'Evita custos processuais',
+                'Reduz ansiedade e incertezas',
+                'Economia de tempo'
+            ];
+
+            const riscosJulgamento = [
+                'Processo pode durar anos',
+                'Risco de perder totalmente',
+                'Custos com advogado e perícias',
+                'Dificuldades na execução',
+                'Possibilidade de recursos'
+            ];
+
+            document.getElementById('pros_acordo').innerHTML = prosAcordo.map(item => `<li>${item}</li>`).join('');
+            document.getElementById('riscos_julgamento').innerHTML = riscosJulgamento.map(item => `<li>${item}</li>`).join('');
+
+            // Mostrar resultados
+            document.getElementById('resultados').style.display = 'block';
+            
+            // Gerar roadmap
+            gerarRoadmap(tempoAcordo, tempoJulgamento);
+            document.getElementById('roadmap').style.display = 'block';
+        }
+
+        function gerarRoadmap(tempoAcordo, tempoJulgamento) {
+            const etapasAcordo = [
+                { fase: 'Homologação do acordo', tempo: '15 dias', desc: 'Juiz analisa e homologa o acordo' },
+                { fase: 'Cumprimento', tempo: '30 dias', desc: 'Prazo para pagamento pela parte contrária' }
+            ];
+
+            const etapasJulgamento = [
+                { fase: 'Instrução processual', tempo: `${Math.ceil(tempoJulgamento*0.3/30)} meses`, desc: 'Produção de provas e perícias' },
+                { fase: 'Audiência de instrução', tempo: `${Math.ceil(tempoJulgamento*0.5/30)} meses`, desc: 'Oitiva de testemunhas e debates' },
+                { fase: 'Sentença', tempo: `${Math.ceil(tempoJulgamento*0.7/30)} meses`, desc: 'Decisão do magistrado' },
+                { fase: 'Possível recurso', tempo: `+6-12 meses`, desc: 'Se houver recurso da parte contrária' },
+                { fase: 'Execução', tempo: `+3-6 meses`, desc: 'Cobrança efetiva do valor devido' }
+            ];
+
+            let timelineHTML = '<h4 style="color: #27ae60; margin-bottom: 15px;">🤝 Cronograma - Acordo</h4>';
+            etapasAcordo.forEach(etapa => {
+                timelineHTML += `
+                    <div class="timeline-item">
+                        <strong>${etapa.fase}</strong> - ${etapa.tempo}
+                        <p style="margin-top: 5px; color: #7f8c8d;">${etapa.desc}</p>
+                    </div>
+                `;
+            });
+
+            timelineHTML += '<h4 style="color: #e74c3c; margin: 30px 0 15px 0;">⚖️ Cronograma - Julgamento</h4>';
+            etapasJulgamento.forEach(etapa => {
+                timelineHTML += `
+                    <div class="timeline-item">
+                        <strong>${etapa.fase}</strong> - ${etapa.tempo}
+                        <p style="margin-top: 5px; color: #7f8c8d;">${etapa.desc}</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById('timeline').innerHTML = timelineHTML;
+        }
+    </script>
+</body>
+</html>
