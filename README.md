@@ -1,8 +1,8 @@
-# SimuJus - Simulador de Conciliação Jurídica
+# PRUMO - Simulador de Conciliação Jurídica
 
 ## 📋 Sobre o Projeto
 
-O **SimuJus** é uma aplicação web desenvolvida para hackathons de inovação jurídica com o tema **"Simples é o Certo, Reconstruindo o Futuro em Redes"**. 
+O **PRUMO** é uma aplicação web desenvolvida uma maratona de inovação jurídica com o tema **"Simples é o Certo, Reconstruindo o Futuro em Redes"**. 
 
 O sistema permite que jurisdicionados simulem cenários de conciliação, comparando as vantagens de aceitar um acordo versus prosseguir para julgamento, fornecendo informações detalhadas sobre tempo, custos, probabilidades e um roadmap completo do processo.
 
@@ -13,7 +13,7 @@ O sistema permite que jurisdicionados simulem cenários de conciliação, compar
 - **Cenário 2**: Prosseguir para julgamento
 - Análise de tempo, valores, probabilidades e custos
 
-### 📊 Cálculos Inteligentes
+### 📊 Cálculos Inteligentes (falta integrar)
 - Algoritmos baseados em dados reais do CNJ
 - Fatores de complexidade e qualidade de evidências
 - Estatísticas por estado e tipo de juizado
@@ -29,60 +29,13 @@ O sistema permite que jurisdicionados simulem cenários de conciliação, compar
 - Recomendações personalizadas com nível de confiança
 - Identificação de fatores decisivos
 
-## 🏗️ Estrutura do Projeto
-
-```
-SimuJus-Hackathon/
-├── index.html              # Página principal
-├── css/
-│   └── styles.css          # Estilos CSS completos
-├── js/
-│   ├── main.js            # Lógica principal e interface
-│   ├── data.js            # Base de dados simulada
-│   └── calculations.js     # Algoritmos de cálculo
-└── docs/
-    └── README.md          # Esta documentação
-```
 
 ## 🚀 Como Executar
 
-### Opção 1: Servidor Local
-```bash
-# Clone ou baixe os arquivos
-cd SimuJus-Hackathon
-
-# Inicie um servidor HTTP simples
-python -m http.server 8000
-# ou
-npx serve .
-# ou
-php -S localhost:8000
-```
-
-### Opção 2: Abrir Diretamente
+### Opção 1: Abrir Diretamente
 1. Extraia todos os arquivos em uma pasta
 2. Abra o arquivo `index.html` em qualquer navegador moderno
 3. A aplicação funcionará completamente offline
-
-## 📐 Arquitetura Técnica
-
-### Frontend
-- **HTML5 Semântico**: Estrutura acessível e bem organizada
-- **CSS3 Moderno**: 
-  - Variáveis CSS personalizadas
-  - Grid Layout responsivo
-  - Animações suaves
-  - Design system consistente
-- **JavaScript Vanilla**: 
-  - Programação orientada a objetos
-  - Módulos organizados
-  - Event-driven architecture
-
-### Base de Dados Simulada
-- **Estatísticas Reais**: Baseadas em dados do CNJ
-- **Juizados por Estado**: Fatores de congestionamento específicos
-- **Tipos de Processo**: Características e probabilidades diferenciadas
-- **Fatores de Complexidade**: Impacto no tempo e sucesso
 
 ### Algoritmos de Cálculo
 
@@ -97,16 +50,6 @@ Probabilidade = (TaxaSucessoJuizado + TaxaSucessoTipo) / 2
                × FatorComplexidade 
                × FatorQualidadeEvidencias
 ```
-
-## 🎨 Design System
-
-### Cores Principais
-- **Primary**: `#667eea` (Azul principal)
-- **Secondary**: `#764ba2` (Roxo secundário)
-- **Success**: `#10b981` (Verde sucesso)
-- **Warning**: `#f59e0b` (Amarelo alerta)
-- **Error**: `#ef4444` (Vermelho erro)
-
 ### Tipografia
 - **Fonte**: Inter (Google Fonts)
 - **Escalas**: Modular scale de 1.125
@@ -230,14 +173,6 @@ Este projeto foi desenvolvido para fins educacionais e de hackathon. É livre pa
 
 ## 👥 Equipe de Desenvolvimento
 
-Projeto desenvolvido para hackathon de inovação jurídica com foco em acessibilidade e simplicidade.
+Nicolly Mayara Xavier Lima - nicollymayara078@gmail.com
 
-## 📞 Suporte
-
-Para dúvidas, sugestões ou reportar bugs:
-- Abra uma issue no repositório
-- Entre em contato através dos canais do hackathon
-
----
-
-**SimuJus** - *"Simples é o Certo, Reconstruindo o Futuro em Redes"*
+**PRUMO** - *"Simples é o Certo, Reconstruindo o Futuro em Redes"*
